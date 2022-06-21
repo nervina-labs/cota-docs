@@ -24,3 +24,5 @@ The CoTA SMT includes four kinds of leaves: define, hold, withdrawal and claim.
 When we say you own an NFT, it means either your hold leaves contain the NFT, or a sender's withdrawal leaf has your address as the destination address and you have not claimed the NFT to your SMT.
 
 As an issuer, Alice can define an NFT collection and then mint NFTs to others. As a receiver, Bob can get the NFTs from Alice and claim the NFTs to his own SMT and withdraw to Tom after claiming. Now Tom owns the NFTs from Bob, but his SMT(hold and claim leaves) doesn't have the NFTs before claiming.
+
+## 

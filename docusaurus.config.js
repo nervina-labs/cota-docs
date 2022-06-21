@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'CoTA Docs',
-  tagline: 'Wonderful NFT Protocol',
+  tagline: 'A Compact Token Aggregator Standard for Extremely Low Cost NFTs and FTs',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -78,7 +78,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} CoTA team.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Nervina Labs.`,
       },
       prism: {
         theme: lightCodeTheme,

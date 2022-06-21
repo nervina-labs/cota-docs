@@ -1,5 +1,5 @@
 ---
-title: CoTA Contract Deployment
+title: Contract Deployment
 label: CoTA
 ---
 

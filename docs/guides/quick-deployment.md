@@ -1,5 +1,5 @@
 ---
-title: Aggregator Quick Deployment
+title: Aggregator Deployment
 label: CoTA
 ---
 
