@@ -25,4 +25,6 @@ When we say you own an NFT, it means either your hold leaves contain the NFT, or
 
 As an issuer, Alice can define an NFT collection and then mint NFTs to others. As a receiver, Bob can get the NFTs from Alice and claim the NFTs to his own SMT and withdraw to Tom after claiming. Now Tom owns the NFTs from Bob, but his SMT(hold and claim leaves) doesn't have the NFTs before claiming.
 
-## 
+## Framework
+
+![framework](./images/framework.svg)
