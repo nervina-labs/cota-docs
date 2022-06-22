@@ -19,6 +19,35 @@ https://testnet.ckbapp.dev/indexer            --->  ckb testnet indexer rpc
 https://cota.nervina.dev/aggregator           --->  cota aggregator rpc
 https://cota.nervina.dev/registry-aggregator  --->  cota registry aggregator rpc
 ```
+## CoTA NFT Flow
+
+```
+                        Register CoTA cells firstly
+1. Alice & Bob & Tom ----------------------------------> Alice CoTA cell & Bob CoTA cell & Tom CoTA cell
+
+
+          Define CoTA NFT Collectoin                      Mint CoTA NFT A1 to Bob
+2. Alice ---------------------------> NFT Collection A -----------------------------> Bob
+
+
+                 Claim NFT A1 and then withdraw NFT A1 to Tom
+       Action1 |----------------------------------------------> Tom
+      | 
+      |                    Transfer NFT A1 to Tom
+3. Bob Action2 |------------------------------- --------------> Tom
+      |
+      |          Claim NFT A1 and then update A1 information
+       Action3 |----------------------------------------------> Bob owns NFT A1 with new information
+
+
+                    Claim NFT A1 and then withdraw NFT A1 to Bob
+        Action1 |----------------------------------------------------> Bob
+       |
+4. Tom |         
+       |                  Transfer NFT A1 to Bob
+        Action2 |----------------------------------------------------> Bob
+
+```
 
 ### Register to Create CoTA Cell
 
