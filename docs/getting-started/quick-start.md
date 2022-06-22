@@ -19,7 +19,7 @@ https://testnet.ckbapp.dev/indexer            --->  ckb testnet indexer rpc
 https://cota.nervina.dev/aggregator           --->  cota aggregator rpc
 https://cota.nervina.dev/registry-aggregator  --->  cota registry aggregator rpc
 ```
-## CoTA NFT Flow
+## CoTA NFT Flowchart
 
 ```
                         Register CoTA cells firstly
