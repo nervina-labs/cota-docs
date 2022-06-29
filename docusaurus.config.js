@@ -1,42 +1,42 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const lightCodeTheme = require("prism-react-renderer/themes/github");
+const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'CoTA Docs',
-  tagline: 'A Compact Token Aggregator Standard for Extremely Low Cost NFTs and FTs',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  title: "CoTA Docs",
+  tagline: "A Compact Token Aggregator Standard for Extremely Low Cost NFTs and FTs",
+  url: "https://your-docusaurus-test-site.com",
+  baseUrl: "/",
+  onBrokenLinks: "throw",
+  onBrokenMarkdownLinks: "warn",
+  favicon: "img/favicon.ico",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'Nervina Labs', // Usually your GitHub org/user name.
-  projectName: 'cota-docs', // Usually your repo name.
+  organizationName: "Nervina Labs", // Usually your GitHub org/user name.
+  projectName: "cota-docs", // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: "en",
+    locales: ["en"],
   },
 
   presets: [
     [
-      'classic',
+      "classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: require.resolve("./sidebars.js"),
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve("./src/css/custom.css"),
         },
       }),
     ],
@@ -46,34 +46,34 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'CoTA',
+        title: "CoTA",
         logo: {
-          alt: 'CoTA Logo',
-          src: 'img/logo.svg',
+          alt: "CoTA Logo",
+          src: "img/logo.png",
         },
         items: [
           {
-            type: 'doc',
-            docId: 'overview',
-            position: 'left',
-            label: 'Tutorial',
+            type: "doc",
+            docId: "overview",
+            position: "left",
+            label: "Tutorial",
           },
           {
-            href: 'https://github.com/nervina-labs/cota-docs',
-            label: 'GitHub',
-            position: 'right',
+            href: "https://github.com/nervina-labs/cota-docs",
+            label: "GitHub",
+            position: "right",
           },
         ],
       },
       footer: {
-        style: 'dark',
+        style: "dark",
         links: [
           {
-            title: 'Community',
+            title: "Community",
             items: [
               {
-                label: 'Discord',
-                href: 'https://discord.gg/yYD5azK9Ua',
+                label: "Discord",
+                href: "https://discord.gg/yYD5azK9Ua",
               },
             ],
           },
