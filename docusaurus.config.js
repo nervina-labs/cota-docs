@@ -6,7 +6,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "CoTA Docs",
+  title: "CoTA",
   tagline: "A Compact Token Aggregator Standard for Extremely Low Cost NFTs and FTs",
   url: "https://your-docusaurus-test-site.com",
   baseUrl: "/",
@@ -72,8 +72,8 @@ const config = {
             title: "Community",
             items: [
               {
-                label: "Discord",
-                href: "https://discord.gg/yYD5azK9Ua",
+                label: "Forum",
+                href: "https://talk.nervos.org/",
               },
             ],
           },

@@ -15,27 +15,27 @@
   width: 160px;
 }
 
-a {
+.featureLink {
   text-decoration: none;
   color: black;
   display: block;
 }
 
-a:link {
+.featureLink:link {
   text-decoration: none;
 }
 
 
-a:visited {
+.featureLink:visited {
   text-decoration: none;
 }
 
 
-a:hover {
+.featureLink:hover {
   text-decoration: none;
 }
 
 
-a:active {
+.featureLink:active {
   text-decoration: none;
 }

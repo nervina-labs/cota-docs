@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import styles from "./styles.module.css";
+import {useColorMode} from "@docusaurus/theme-common";
 
 type FeatureItem = {
   title: string;
@@ -10,7 +11,7 @@ type FeatureItem = {
   link: string;
 };
 
-const FeatureList: FeatureItem[] = [
+const featureList = (isDarkTheme = false): FeatureItem[] => [
   {
     title: "未物主义-Futurism",
     imageUrl: require("@site/static/img/futurism.png").default,
@@ -30,6 +31,12 @@ const FeatureList: FeatureItem[] = [
     link: "https://rostra.xyz/",
   },
   {
+    title: "Mibao",
+    Svg: isDarkTheme ? require("@site/static/img/mibao_white.svg").default : require("@site/static/img/mibao.svg").default,
+    description: <>Build value layer for metaverse</>,
+    link: "https://mibao.net",
+  },
+  {
     title: "CoTA NFT Telegram Bot",
     imageUrl: require("@site/static/img/rostra.png").default,
     description: <>A gate keeper of telegram group</>,
@@ -46,7 +53,7 @@ const FeatureList: FeatureItem[] = [
 function Feature({title, Svg, imageUrl, description, link}: FeatureItem) {
   return (
     <div className={clsx("col col--4")}>
-      <a className="text--center" href={link} target="blank">
+      <a className={clsx("text--center", styles.featureLink)} href={link} target="blank">
         {Svg && <Svg className={styles.featureSvg} role="img" />}
         {imageUrl && <img className={styles.featureImg} src={imageUrl} />}
       </a>
@@ -59,11 +66,12 @@ function Feature({title, Svg, imageUrl, description, link}: FeatureItem) {
 }
 
 export default function HomepageFeatures(): JSX.Element {
+  const {isDarkTheme} = useColorMode();
   return (
     <section className={styles.features}>
       <div className="container">
         <div className="row">
-          {FeatureList.map((props, idx) => (
+          {featureList(isDarkTheme).map((props, idx) => (
             <Feature key={idx} {...props} />
           ))}
         </div>
