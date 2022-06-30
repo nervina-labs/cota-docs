@@ -13,10 +13,10 @@ type FeatureItem = {
 
 const featureList = (isDarkTheme = false): FeatureItem[] => [
   {
-    title: "未物主义-Futurism",
-    imageUrl: require("@site/static/img/futurism.png").default,
-    description: <>An ecological digital collection platform of "interactive group governance"</>,
-    link: "http://m.wwzy.club/",
+    title: "Mibao",
+    Svg: isDarkTheme ? require("@site/static/img/mibao_white.svg").default : require("@site/static/img/mibao.svg").default,
+    description: <>Build value layer for metaverse</>,
+    link: "https://mibao.net",
   },
   {
     title: "Cluster3",
@@ -31,10 +31,10 @@ const featureList = (isDarkTheme = false): FeatureItem[] => [
     link: "https://rostra.xyz/",
   },
   {
-    title: "Mibao",
-    Svg: isDarkTheme ? require("@site/static/img/mibao_white.svg").default : require("@site/static/img/mibao.svg").default,
-    description: <>Build value layer for metaverse</>,
-    link: "https://mibao.net",
+    title: "未物主义-Futurism",
+    imageUrl: require("@site/static/img/futurism.png").default,
+    description: <>An ecological digital collection platform of "interactive group governance"</>,
+    link: "http://m.wwzy.club/",
   },
   {
     title: "CoTA NFT Telegram Bot",
