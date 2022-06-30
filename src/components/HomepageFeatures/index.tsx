@@ -1,52 +1,55 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './styles.module.css';
+import React from "react";
+import clsx from "clsx";
+import styles from "./styles.module.css";
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  Svg?: React.ComponentType<React.ComponentProps<"svg">>;
+  imageUrl?: string;
   description: JSX.Element;
+  link: string;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
-    ),
+    title: "未物主义-Futurism",
+    imageUrl: require("@site/static/img/futurism.png").default,
+    description: <>An ecological digital collection platform of "interactive group governance"</>,
+    link: "http://m.wwzy.club/",
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
+    title: "Cluster3",
+    Svg: require("@site/static/img/cluster3.svg").default,
+    description: <>Serving Creative Communities</>,
+    link: "https://home.cluster3.me/",
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    ),
+    title: "Rostra",
+    imageUrl: require("@site/static/img/rostra.png").default,
+    description: <>Build your web3 community with CoTA NFT</>,
+    link: "https://rostra.xyz/",
+  },
+  {
+    title: "CoTA NFT Telegram Bot",
+    imageUrl: require("@site/static/img/rostra.png").default,
+    description: <>A gate keeper of telegram group</>,
+    link: "https://github.com/LoopDAO/ckb-nft-telegram-bot",
+  },
+  {
+    title: "CoTA NFT Discord Bot",
+    imageUrl: require("@site/static/img/rostra.png").default,
+    description: <>A gate keeper of discord</>,
+    link: "https://github.com/LoopDAO/ckb-nft-discord-bot",
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({title, Svg, imageUrl, description, link}: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
+    <div className={clsx("col col--4")}>
+      <a className="text--center" href={link} target="blank">
+        {Svg && <Svg className={styles.featureSvg} role="img" />}
+        {imageUrl && <img className={styles.featureImg} src={imageUrl} />}
+      </a>
       <div className="text--center padding-horiz--md">
         <h3>{title}</h3>
         <p>{description}</p>
