@@ -91,6 +91,9 @@ ENV THREADS 3
 # ckb-indexer url
 ENV CKB_INDEXER http://localhost:8116
 
+// ckb-node url
+ENV CKB_NODE http://localhost:8114
+
 # false for Testnet and true for Mainnet
 ENV IS_MAINNET false
 
