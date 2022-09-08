@@ -10,9 +10,9 @@ label: CoTA
 
 ## Dependencies
 
-The aggregators depend on `ckb-node / cota-nft-entries-syncer / ckb-indexer`，so you must deploy these services firstly.
+The aggregators depend on `ckb-node / cota-syncer / ckb-indexer`，so you must deploy these services firstly.
 
-> ckb-node / cota-nft-entries-syncer / ckb-indexer need some time to synchronize the latest block data, please make sure the synchronization is complete before doing the other things.
+> ckb-node / cota-syncer / ckb-indexer need some time to synchronize the latest block data, please make sure the synchronization is complete before doing the other things.
 
 ### ckb-node
 
@@ -20,7 +20,7 @@ The aggregators depend on `ckb-node / cota-nft-entries-syncer / ckb-indexer`，s
 
 > ckb-node default url：http://localhost:8114
 
-### cota-nft-entries-syncer
+### cota-syncer
 
 1. Create MySQL database whose name is `cota_entries`
 2. Create `check_infos` table
@@ -52,9 +52,9 @@ CREATE TABLE IF NOT EXISTS check_infos (
   insert into check_infos (check_type, block_number, block_hash, created_at, updated_at) values (1, 6558909, '6ad3c5479c343a2a160332b6dd3d502f2a8eab7f6fd69fc4c20b52bb99ff3dfa', now(), now());
   ```
 
-4. Clone [cota-nft-entries-syncer](https://github.com/nervina-labs/cota-nft-entries-syncer) and update `configs/config.yaml` to type the mysql url and other information.
+4. Clone [cota-syncer](https://github.com/nervina-labs/cota-syncer) and update `configs/config.yaml` to type the mysql url and other information.
    > `mode = wild`: quick synchronization as soon as possible，`mode = normal`: synchronization at regular intervals
-5. Goto `cota-nft-entries-syncer` root directory and run `make && bin/syncer`
+5. Goto `cota-syncer` root directory and run `make && bin/syncer`
 
 > If you are familiar with docker, we recommend deploying with docker, please refer to Dockerfile for details
 

@@ -10,7 +10,7 @@ You can use [cota-sdk](https://github.com/nervina-labs/cota-sdk-js) to register,
 
 cota-sdk depends some services which include [ckb-node](https://docs.nervos.org/docs/basics/guides/testnet/), [ckb-indexer](https://github.com/nervosnetwork/ckb-indexer), [cota-aggregator](https://github.com/nervina-labs/cota-aggregator) and [cota-registry-aggregator](https://github.com/nervina-labs/cota-registry-aggregator).
 
-The public services can be useful to test and debug as following: 
+The public services can be useful to test and debug as following:
 
 ```
 # Testnet
@@ -19,6 +19,7 @@ https://testnet.ckbapp.dev/indexer            --->  ckb testnet indexer rpc
 https://cota.nervina.dev/aggregator           --->  cota aggregator rpc
 https://cota.nervina.dev/registry-aggregator  --->  cota registry aggregator rpc
 ```
+
 ## CoTA NFT Flowchart
 
 ```
@@ -26,13 +27,13 @@ https://cota.nervina.dev/registry-aggregator  --->  cota registry aggregator rpc
 1. Alice & Bob & Tom ----------------------------------> Alice CoTA cell & Bob CoTA cell & Tom CoTA cell
 
 
-          Define CoTA NFT Collectoin                      Mint CoTA NFT A1 to Bob
+          Define CoTA NFT Collection                      Mint CoTA NFT A1 to Bob
 2. Alice ---------------------------> NFT Collection A -----------------------------> Bob
 
 
                  Claim NFT A1 and then withdraw NFT A1 to Tom
        Action1 |----------------------------------------------> Tom
-      | 
+      |
       |                    Transfer NFT A1 to Tom
 3. Bob Action2 |------------------------------- --------------> Tom
       |
@@ -43,7 +44,7 @@ https://cota.nervina.dev/registry-aggregator  --->  cota registry aggregator rpc
                     Claim NFT A1 and then withdraw NFT A1 to Bob
         Action1 |----------------------------------------------------> Bob
        |
-4. Tom |         
+4. Tom |
        |                  Transfer NFT A1 to Bob
         Action2 |----------------------------------------------------> Bob
 
