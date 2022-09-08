@@ -13,10 +13,10 @@ type FeatureItem = {
 
 const featureList = (isDarkTheme = false): FeatureItem[] => [
   {
-    title: "Mibao",
-    Svg: isDarkTheme ? require("@site/static/img/mibao_white.svg").default : require("@site/static/img/mibao.svg").default,
-    description: <>Build value layer for metaverse</>,
-    link: "https://mibao.net",
+    title: "Token City",
+    Svg: isDarkTheme ? require("@site/static/img/token_city.svg").default : require("@site/static/img/token_city.svg").default,
+    description: <>View and manage your NFTs anytime, anywhere</>,
+    link: "https://token.city",
   },
   {
     title: "Cluster3",
