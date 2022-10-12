@@ -1,7 +1,7 @@
 ---
 title: CKB Transaction Metadata Standard
 label: ctmeta
-sidebar_position: 6
+sidebar_position: 5
 ---
 
 # CKB Transaction Metadata Standard

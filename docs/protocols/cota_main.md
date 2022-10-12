@@ -10,6 +10,18 @@ The CoTA (aka. Compact Token Aggregator) protocol is a layer-1.5 **account based
 
 The CoTA Cell simply consists of two necessary parts, the SMT root in the `cell data` field, and the `CoTA typescript` in the `cell type` field. They stand for the personal data and operation verification logic separately.
 
+```yaml
+ # CoTA cell data structure
+data:
+    version: byte
+    smt_root: byte32
+type:
+    code_hash: cota_type
+    args: lockscript_hash[0..20]  # must match self.lockscript
+lock:
+    --
+```
+
 ![CoTA cell illustration](../images/cota_overview.svg)
 
 ## Two-step operation design pattern
@@ -27,3 +39,23 @@ There should be only one CoTA cell for one address to prevent double-claim issue
 ## FT, NFT, and Account model on UTXO chain
 
 CoTA protocol builds in standard token define, mint, and transfer operations, covering fungible and non-fungible tokens. The CoTA cell stores the token issuance, distribution, and holding records under one address. So it's an account model layer over the UTXO model chain, and this feature makes the programming and achieving composability much easier on CKB.
+
+## K-V structure for CoTA SMT
+
+### Key type
+
+The `cota.smt_root` is the essential data field in the design. Data stored in the SMT is managed by key-value pair, and several kinds of data are stored and compressed in this hash root. The CoTA typescript (smart contract) processes the transaction logic according to its value. We use a two-bytes variable `smt_root.key.smt_type` to identify different key types.
+
+| type name | 1st byte | 2nd byte | description |
+|--|--|--|--|
+| cota-NFT-define | 0x81 (NFT) | 0x00 | NFT issuance definition |
+| cota-NFT-hold | 0x81 (NFT) | 0x01 | current hold NFT |
+| cota-NFT-withdrawal | 0x81 (NFT) | 0x02 | NFT withdrawal record |
+| cota-NFT-claim | 0x81 (NFT) | 0x03 | NFT claim record |
+| cota-FT-define | 0x82 (FT) | 0x00 | FT issuance definition |
+| cota-FT-hold | 0x82 (FT) | 0x01 | current hold FT |
+| cota-FT-withdrawal | 0x82 (FT) | 0x02 | FT withdrawal record |
+| cota-FT-claim | 0x82 (FT) | 0x03 | FT claim record |
+| extension-data | 0xF0 | 0x00 | user-defined data |
+| reserved | other | -- | -- |
+
