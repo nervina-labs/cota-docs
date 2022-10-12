@@ -1,0 +1,8 @@
+{
+  "label": "Protocols",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "CoTA related protocol details"
+  } 
+}
