@@ -1,5 +1,6 @@
 ---
-title: CoTA Fungible Token Metadata Schema
+title: CoTA Fungible Token Metadata Schema (WIP)
 label: ft-schema
+sidebar_position: 1
 ---
-CoTA Fungible Token Metadata Schema
+Working in progress

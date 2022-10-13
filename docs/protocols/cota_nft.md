@@ -19,25 +19,27 @@ Here are the detailed k-v definitions.
 # cota-NFT-define data structure
 key:
 	smt_type:  uint16         # type bytes for cota-NFT-define big endian
-    token_id:   Byte[20]       # hash(inputs[0].out_point + first_output_index)[0..20]
+    token_id:  Byte[20]       # hash(inputs[0].out_point + first_cota_index)[0..20]
 	reserved:  Byte[10]    
 value:
 	total:     uint32         # 0 for unlimited
 	issued:    uint32
     configure: Byte[1]
-    reserved:  Byte[23]
+    reserved:  Byte[22]
+	ending:    0xFF           # in case all-zero value
 
 # cota-NFT-hold data structure
 key:
 	smt_type:  uint16         # type byte for cota-NFT-hold
-    token_id:   Byte[20]
+    token_id:  Byte[20]
 	index_id:  uint32
     reserved:  Byte[6]      
 value:
     configure: Byte[1]
 	state:     Byte[1]
 	characteristic: Byte[20]  # user-defined data
-    reserved:  Byte[10]
+    reserved:  Byte[9]
+	ending:    0xFF           # in case all-zero value
 
 # cota-NFT-withdraw data structure
 key:  
@@ -58,7 +60,7 @@ blake2b_hash of {
 key: 
 blake2b_hash of {
     smt_type:  uint16             # type byte for cota-NFT-claim
-	token_id:   Byte[20]
+	token_id:  Byte[20]
 	index_id:  uint32    
 	out_point: OutPoint[12..36]   # Outpoint field recorded in the proof
 |
@@ -67,3 +69,8 @@ value:
 	0xFF...FF for claimed
 ```
 
+Where `token_id` (also written as `cota_id` in the early designs) is an UUID for all fungible and non-fungible tokens. Its value is set according to the token definition transaction data. 
+
+```
+token_id = hash(tx.inputs[0].out_point | tx.outputs.get_first(cota_type).index)[0..20]
+```

@@ -1,30 +1,31 @@
 ---
 title: CoTA NFT Metadata Schema
 label: nft-schema
+sidebar_position: 0
 ---
 
 ```yaml
-title: CoTA NFT Class 的 Metadata 规范
+title: Metadata schema for CoTA NFT definition
 type: object
 properties:
   version:
     type: string
-    description: 指定所用 Metadata 规范的版本
+    description: Version of this schema
     optional: false
 
   name:
     type: string
-    description: 指定 NFT Class 的名称
+    description: Name for the NFT
     optional: false
 
   symbol:
     type: string
-    description: 指定 NFT Class 的缩写
+    description: Symbol or short name for the NFT
     optional: true
 
   description:
     type: string
-    description: 指定 NFT Class 的文字描述信息
+    description: NFT description
     optional: true
 
   image:
@@ -71,24 +72,7 @@ properties:
         description: 属性类型
         optional: false
 
-  localization:
-    type: object
-    properties:
-      uri:
-        type: string
-        description: 存储国际化信息的 uri, 包含 {locale} 占位符, 例如 url 为 `http://localhost:3000/i18n/{locale}.json`, 应用层的语言为 fr, 则实际请求 `http://localhost:3000/i18n/fr.json`, 返回对英语言版本的 metadata
-        optional: false
-      default:
-        type: string
-        description: 默认语言版本, 即秘宝的 renderer 对应的 metadata 语言版本
-      locales:
-        type: array
-        description: 支持的语言版本, 采用 ISO 639-1 标准
-
-    optional: true
-
 # 在 metadata 中建议使用 cid, 在应用层面建议做 dnslink 支持
-# 媒体链接中代入 id 处亦可替换成 locale, block_number, tx_hash, 来请求不同语言版本/时期的 NFT 表现
 # date 的值为 Unix 时间戳
 # 新增媒体格式可以顺着 image, audio, video, model 同级扩展下去, 允许包含多个媒体形成多媒体资源包
 ```

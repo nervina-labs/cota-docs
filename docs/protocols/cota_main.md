@@ -36,7 +36,7 @@ To solve this problem, we introduce a two-step operation design pattern. The pri
 
 There should be only one CoTA cell for one address to prevent double-claim issues. Otherwise, multiple CoTA cells with the same address could repeatedly claim tokens according to the same proof. So a [global registry](./cota_registry) must exist to ensure the CoTA cell's uniqueness.
 
-## FT, NFT, and Account model on UTXO chain
+## FT, NFT, and account model on UTXO chain
 
 CoTA protocol builds in standard token define, mint, and transfer operations, covering fungible and non-fungible tokens. The CoTA cell stores the token issuance, distribution, and holding records under one address. So it's an account model layer over the UTXO model chain, and this feature makes the programming and achieving composability much easier on CKB.
 
@@ -44,7 +44,7 @@ CoTA protocol builds in standard token define, mint, and transfer operations, co
 
 ### Key type
 
-The `cota.smt_root` is the essential data field in the design. Data stored in the SMT is managed by key-value pair, and several kinds of data are stored and compressed in this hash root. The CoTA typescript (smart contract) processes the transaction logic according to its value. We use a two-bytes variable `smt_root.key.smt_type` to identify different key types.
+The `data.smt_root` is the essential data field in the design. Data stored in the SMT is managed by key-value pair, and several kinds of data are stored and compressed in this hash root. The CoTA typescript (smart contract) processes the transaction logic according to its value. We use a two-bytes variable `smt_root.key.smt_type` to identify different key types.
 
 | type name | 1st byte | 2nd byte | description |
 |--|--|--|--|
@@ -58,4 +58,3 @@ The `cota.smt_root` is the essential data field in the design. Data stored in th
 | cota-FT-claim | 0x82 (FT) | 0x03 | FT claim record |
 | extension-data | 0xF0 | 0x00 | user-defined data |
 | reserved | other | -- | -- |
-
