@@ -60,7 +60,7 @@ const config = {
           },
           {
             type: "doc",
-            docId: "overview",
+            docId: "getting-started/overview",
             position: "left",
             label: "Tutorial",
           },

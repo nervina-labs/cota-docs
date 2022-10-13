@@ -1,8 +1,4 @@
 {
-  "label": "Guides",
-  "position": 3,
-  "link": {
-    "type": "generated-index",
-    "description": "CoTA NFT detail"
-  }
+  "label": "Developmemt Guidance",
+  "position": 3
 }

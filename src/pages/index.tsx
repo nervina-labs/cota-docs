@@ -20,7 +20,7 @@ function HomepageHeader() {
             Protocols
           </Link>
           
-          <Link className="button button--secondary button--lg" to="/docs/overview">
+          <Link className="button button--secondary button--lg" to="/docs/getting-started/overview">
             Tutorial
           </Link>
         </div>
@@ -34,7 +34,7 @@ export default function Home(): JSX.Element {
     <Layout title="Home" description="The docs of CoTA protocol for NFTs and FTs ">
       <HomepageHeader />
       <main>
-        <div className={styles.appTitle}>CoTA Applications</div>
+        {/* <div className={styles.appTitle}>CoTA Applications</div> */}
         <HomepageFeatures />
       </main>
     </Layout>
