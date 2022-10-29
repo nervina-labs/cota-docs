@@ -14,29 +14,29 @@ CKB Transaction Metadata (aka. CTMeta) is the standard of additional metadata fo
 
 CTMeta uses `group_witnesses[0].output_type` as the data container. The data should be written in Json format, with the following schema.
 
-```json
+```yaml
 {
-	"id": "CTMeta",              // identifier for off-chain processor
-    "ver": "1.0",				 // current version
-	"metadata":                  
-	[
-		{
-			"target": "output#0",    // description for which utxo, format: {input, output}#index
-			"type": "nft-renderer",  // metadata types
+    "id": "CTMeta",              // identifier for off-chain processor
+    "ver": "1.0",                // current version
+    "metadata":                  
+    [
+        {
+            "target": "output#0",    // description for which utxo, format: {input, output}#index
+            "type": "nft-renderer",  // metadata types
             "data": <payload_data>   // detail metadata for various types
         },
-		{
-			"target": "output#1",	 // an example for transfer postscript
-			"type": "postscript",
-			"data": "I love you."
-		},
-		...
-	]
+        {
+            "target": "output#1",    // an example for transfer postscript
+            "type": "postscript",
+            "data": "I love you."
+        },
+        // ...
+    ]
 }
+```
 
 ## Pre-defined metadata type
 
-```
 | schema type | description | schema standard |
 |--|--|--|
 | cota.nft.define* | CoTA NFT definition | [CoTA NFT Metadata Schema](./CTMeta-schemas/nft-schema) |
