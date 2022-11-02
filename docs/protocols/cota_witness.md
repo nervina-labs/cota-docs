@@ -8,14 +8,18 @@ sidebar_position: 5
 
 ```jsx
 // common.mol
-array Byte32 [byte; 32];
 array Uint16 [byte; 2];   // 大端数据
 array Uint32 [byte; 4];   // 大端数据
-vector Bytes <byte>;
+array Uint64 [byte; 8];
+array Byte32 [byte; 32];
 
 array CotaId [byte; 20];
 array Characteristic [byte; 20];
 array OutPointSlice [byte; 24];
+
+vector Bytes <byte>;
+vector Uint32Vec <Uint32>;
+vector Byte32Vec <Byte32>;
 
 struct CotaNFTId {
   smt_type: Uint16,
@@ -24,43 +28,53 @@ struct CotaNFTId {
 }
 
 struct CotaNFTInfo {
-	configure: byte,
-	state: byte,
+  configure: byte,
+  state: byte,
   characteristic: Characteristic,
 }
 
-struct DefineCotaNFTId{
+table MerkleProof {
+  indices: Uint32Vec,
+  lemmas: Byte32Vec,
+}
+
+table TransactionProof {
+  witnesses_root: Byte32,
+  proof: MerkleProof,
+}
+
+struct DefineCotaNFTId {
   smt_type: Uint16,
   cota_id: CotaId,
 }
 
 struct DefineCotaNFTValue {
-	total: Uint32,
-	issued: Uint32,
-	configure: byte
+  total: Uint32,
+  issued: Uint32,
+  configure: byte,
 }
-
 vector DefineCotaNFTKeyVec <DefineCotaNFTId>;
 vector DefineCotaNFTValueVec <DefineCotaNFTValue>;
+
 
 vector HoldCotaNFTKeyVec <CotaNFTId>;
 vector HoldCotaNFTValueVec <CotaNFTInfo>;
 
-vector WithdrawalCotaNFTKeyVec <CotaNFTId>;
 
-struct WithdrawalCotaNFTValue {
-	nft_info: CotaNFTInfo,
+table WithdrawalCotaNFTValue {
+  nft_info: CotaNFTInfo,
   to_lock: Bytes,
   out_point: OutPointSlice,
 }
+vector WithdrawalCotaNFTKeyVec <CotaNFTId>;
 vector WithdrawalCotaNFTValueVec <WithdrawalCotaNFTValue>;
 
+
 struct ClaimCotaNFTKey {
-	nft_id: CotaNFTId,
+  nft_id: CotaNFTId,
   out_point: OutPointSlice,
 }
 vector ClaimCotaNFTKeyVec <ClaimCotaNFTKey>;
-
 vector ClaimCotaNFTValueVec <Byte32>;
 struct ClaimCotaNFTInfo {
   version: byte,
@@ -68,14 +82,16 @@ struct ClaimCotaNFTInfo {
 }
 vector ClaimCotaNFTInfoVec <ClaimCotaNFTInfo>;
 
+
+// V1
 struct WithdrawalCotaNFTKeyV1 {
-	nft_id: CotaNFTId,
+  nft_id: CotaNFTId,
   out_point: OutPointSlice,
 }
 vector WithdrawalCotaNFTKeyV1Vec <WithdrawalCotaNFTKeyV1>;
 
 table WithdrawalCotaNFTValueV1 {
-	nft_info: CotaNFTInfo,
+  nft_info: CotaNFTInfo,
   to_lock: Bytes,
 }
 vector WithdrawalCotaNFTValueV1Vec <WithdrawalCotaNFTValueV1>;
@@ -86,13 +102,13 @@ vector WithdrawalCotaNFTValueV1Vec <WithdrawalCotaNFTValueV1>;
 ```jsx
 // action_type: Uint8，位于 witness_args.input_type[0]
 match action_type {
-	0x01 => create                  // define and mint nft 
+  0x01 => create                  // define and mint nft 
   0x02 => mint                    // mint nft from define
   0x03 => withdraw                // withdraw nft tx
   0x04 => claim                   // claim nft tx
   0x05 => update                  // update nft info
   0x06 => transfer                // transfer nft with one step(claim & withdraw)
-	0x07 => claim_udpate            // claim and update nft tx
+  0x07 => claim_udpate            // claim and update nft tx
   0x08 => transfer_update         // transfer and update nft tx
 }
 ```
@@ -122,7 +138,6 @@ action = match action_type {
 ### RawTx  数据结构
 
 ```bash
-// raw_tx.mol
 
 import common;
 
@@ -190,8 +205,8 @@ table TransactionProof {
 ```jsx
 # CoTA cell data structure
 data:
-    version: byte     // must be 0 or 1(V1)
-    smt_root: optional<byte32>
+    version: byte
+    smt_root: Option<byte32>
 type:
     code_hash: **cota_type**
     args: lockscript_hash[0..20]        # must match self.lockscript
@@ -201,7 +216,7 @@ lock:
 
 CoTA cell 规则：
 
-- `version == 1`
+- `version == 2`
 - `cota_type_args == cota_lock_hash[0..20]`
 - CoTA cell 不允许销毁，且不允许转让
 - CoTA cell 的创建交易中必须有 `global_cota_registry_cell` 参与，合约判定 `global_cota_registry_cell` 的 type_id
@@ -214,8 +229,9 @@ CoTA cell 的生成需要 `global_cota_registry_cell` 的参与，目的是保�
 ```jsx
 # global_cota_registry_cell data structure
 data:
-    version: byte     // must be 0
-    registry_smt_root: optional<byte32>
+    version: byte
+    registry_smt_root: Option<byte32>
+    account_num: uint64
 type:
     code_hash: global_cota_registry_type
     args: type_id
@@ -340,14 +356,15 @@ witnesses:
 //mint.mol
 import common;
 
+// V1
 table MintCotaNFTV1Entries {
   define_keys: DefineCotaNFTKeyVec,
   define_old_values: DefineCotaNFTValueVec,
   define_new_values: DefineCotaNFTValueVec,
   withdrawal_keys: WithdrawalCotaNFTKeyV1Vec,
-  withdrawal_values: WithdrawalCotaNFTValueV1Vec ,
+  withdrawal_values: WithdrawalCotaNFTValueV1Vec,
   proof: Bytes,
-  action: Bytes,  
+  action: Bytes,
 }
 ```
 
@@ -365,7 +382,7 @@ table MintCotaNFTV1Entries {
 - action 必须与上述文档中定义的保持一致
 - withdrawal 的 keys/vaules 不在 input.smt 中（smt root 与 proof 验证）
 - withdrawal 的 keys/values 在 output.smt 中（smt root 与 proof 验证）
-- define_old 的 keys/vaules在 input.smt 中（smt root 与 proof 验证）
+- define_old 的 keys/vaules 在 input.smt 中（smt root 与 proof 验证）
 - define_new 的 keys/values 在 output.smt 中（smt root 与 proof 验证）
 
 ### CoTA NFT 转让之 withdraw
@@ -390,6 +407,7 @@ witnesses:
 // transfer.mol
 import common;
 
+// V1
 table WithdrawalCotaNFTV1Entries {
   hold_keys: HoldCotaNFTKeyVec,         // Before withdrawal
   hold_values: HoldCotaNFTValueVec,     // Before withdrawal
@@ -440,17 +458,22 @@ witnesses:
 ```jsx
 // transfer.mol
 import common;
-import raw_tx;
 
+// V2
 table ClaimCotaNFTV2Entries {
   hold_keys: HoldCotaNFTKeyVec,
   hold_values: HoldCotaNFTValueVec,
   claim_keys: ClaimCotaNFTKeyVec,
   claim_values: ClaimCotaNFTValueVec,
   proof: Bytes,
-  withdrawal_proof: Bytes,
   action: Bytes,
-  raw_tx: RawTransaction,
+
+  // The leaf_keys and leaf_values are used to verify withdraw smt proof
+  leaf_keys: Byte32Vec,
+  leaf_values: Byte32Vec,
+  withdrawal_proof: Bytes,
+
+  raw_tx: Bytes,
   output_index: Uint32,
   tx_proof: TransactionProof,
 }
@@ -460,7 +483,7 @@ table ClaimCotaNFTV2Entries {
 
 - `cell_deps[0] == sender_cota_cell`
 - `receiver.claim.out_point == sender.withdrawal.out_point`
-- `claim.value == 0x00FF..FF(V0) or 0x01FF..FF(V1)`
+- `claim.value == 0x00FF..FF(V0) or 0x01FF..FF(V1) or 0x02FF..FF(V2)`
 - `hold.key.cota_id + hold.key.index == claim.key.cota_id + claim.key.index`
 - `sender.withdrawal.to_lock == recevier_lock_script`
 - `hold_smt_type == 0x8101`
@@ -468,7 +491,7 @@ table ClaimCotaNFTV2Entries {
 - 对应的 `keys: values`，长度必须相等
 - holds 与 claims 数据必须一一对应
 - action 必须与上述文档中定义的保持一致
-- sender.withdrawal + sender.smt_root + withdrawal_proof 三者验证 smt 通过（需要区分V0和V1）
+- sender.withdrawal + sender.smt_root + withdrawal_proof 三者验证 smt 通过（需要区分V0和V1或V2）
 - withdrawal_proof 只包含 smt_type 为 withdraw 的叶子结点
 - claim 的 keys/vaules 不在 input.smt 中（smt root 与 proof 验证）
 - claim 的 keys/values 在 output.smt 中（smt root 与 proof 验证）
@@ -499,7 +522,6 @@ witnesses:
 ```jsx
 // transfer.mol
 import common;
-import raw_tx;
 
 table TransferCotaNFTV2Entries {
   claim_keys: ClaimCotaNFTKeyVec,
@@ -507,9 +529,14 @@ table TransferCotaNFTV2Entries {
   withdrawal_keys: WithdrawalCotaNFTKeyV1Vec,
   withdrawal_values: WithdrawalCotaNFTValueV1Vec,
   proof: Bytes,
-  withdrawal_proof: Bytes,
   action: Bytes,
-  raw_tx: RawTransaction,
+
+  // The leaf_keys and leaf_values are used to verify withdraw smt proof
+  leaf_keys: Byte32Vec,
+  leaf_values: Byte32Vec,
+  withdrawal_proof: Bytes,
+
+  raw_tx: Bytes,
   output_index: Uint32,
   tx_proof: TransactionProof,
 }
@@ -520,7 +547,7 @@ table TransferCotaNFTV2Entries {
 - `cell_deps[0] == sender_cota_cell`
 - `receiver.claim.out_point == sender.withdrawal.out_point`
 - `receiver.withdraw.out_point == receiver_cota_cell_inputs[0].out_point`
-- `claim.value == 0x00FF..FF(V0) or 0x01FF..FF(V1)`
+- `claim.value == 0x00FF..FF(V0) or 0x01FF..FF(V1) or 0x02FF..FF(V2)`
 - `claim.key.cota_id + claim.key.index == withdrawal.key.nft_info.cota_id + withdrawal.key.nft_info.index`
 - `sender.withdrawal.to_lock == recevier_lock_script`
 - `withdraw_smt_type == 0x8102`
@@ -528,7 +555,7 @@ table TransferCotaNFTV2Entries {
 - 对应的 `keys: values`，长度必须相等
 - claims 与 withdrawals 数据必须一一对应
 - action 必须与上述文档中定义的保持一致
-- sender.withdrawal + sender.smt_root + withdrawal_proof 三者验证 smt 通过（需要区分V0和V1）
+- sender.withdrawal + sender.smt_root + withdrawal_proof 三者验证 smt 通过（需要区分V0和V1或V2）
 - claim 的 keys/vaules 不在 input.smt 中（smt root 与 proof 验证）
 - claim 的 keys/values 在 output.smt 中（smt root 与 proof 验证）
 - withdrawal 的 keys/vaules 不在 input.smt 中（smt root 与 proof 验证）
@@ -588,7 +615,7 @@ outputs:
 	receiver_cota_cell
 
 outputs_data:
-		version + smt_root
+	version + smt_root
 
 witnesses:
 	witness_args.input_type = action_type + ClaimUpdateCotaNFTV2Entries 
@@ -599,17 +626,22 @@ witnesses:
 ```jsx
 // transfer_update.mol
 import common;
-import raw_tx;
 
+// V2
 table ClaimUpdateCotaNFTV2Entries {
   hold_keys: HoldCotaNFTKeyVec,
   hold_values: HoldCotaNFTValueVec,
   claim_keys: ClaimCotaNFTKeyVec,
   claim_infos: ClaimCotaNFTInfoVec,
   proof: Bytes,
-  withdrawal_proof: Bytes,
   action: Bytes,
-  raw_tx: RawTransaction,
+
+  // The leaf_keys and leaf_values are used to verify withdraw smt proof
+  leaf_keys: Byte32Vec,
+  leaf_values: Byte32Vec,
+  withdrawal_proof: Bytes,
+
+  raw_tx: Bytes,
   output_index: Uint32,
   tx_proof: TransactionProof,
 }
@@ -624,13 +656,13 @@ table ClaimUpdateCotaNFTV2Entries {
 - `sender.withdrawal.to_lock == recevier_lock_script`
 - `hold_smt_type == 0x8101`
 - `claim_smt_type == 0x8103`
-- `claim.info.version == 0x00(V0) or 0x01(V1)`
+- `claim.info.version == 0x00(V0) or 0x01(V1) or 0x02(V2)`
 - `claim_info.nft_info.configure == hold_value.nft_info.configure`
 - 对应的 `keys: values`，长度必须相等
 - holds 与 claims 数据必须一一对应
 - action 必须与上述文档中定义的保持一致
 - `hold.state/characteristic` 满足 configure 配置，具体见 [mNFT 需求文档](https://www.notion.so/NFT-d6d5e54025824dce81cf7268b12625ea)
-- sender.withdrawal + sender.smt_root + withdrawal_proof 三者验证 smt 通过（需要区分V0和V1）
+- sender.withdrawal + sender.smt_root + withdrawal_proof 三者验证 smt 通过（需要区分V0和V1或V2）
 - claim 的 keys/vaules 不在 input.smt 中（smt root 与 proof 验证）
 - claim 的 keys/values(0xFF...FF) 在 output.smt 中（smt root 与 proof 验证）
 - hold 的 keys/vaules 不在 input.smt 中（smt root 与 proof 验证）
@@ -660,17 +692,21 @@ witnesses:
 ```jsx
 // transfer_update.mol
 import common;
-import raw_tx;
 
 table TransferUpdateCotaNFTV2Entries {
   claim_keys: ClaimCotaNFTKeyVec,
   claim_infos: ClaimCotaNFTInfoVec,
-  withdrawal_keys: WithdrawalCotaNFTKeyVec,
-  withdrawal_values: WithdrawalCotaNFTValueVec,
+  withdrawal_keys: WithdrawalCotaNFTKeyV1Vec,
+  withdrawal_values: WithdrawalCotaNFTValueV1Vec,
   proof: Bytes,
-  withdrawal_proof: Bytes,
   action: Bytes,
-  raw_tx: RawTransaction,
+
+  // The leaf_keys and leaf_values are used to verify withdraw smt proof
+  leaf_keys: Byte32Vec,
+  leaf_values: Byte32Vec,
+  withdrawal_proof: Bytes,
+
+  raw_tx: Bytes,
   output_index: Uint32,
   tx_proof: TransactionProof,
 }
@@ -685,14 +721,13 @@ table TransferUpdateCotaNFTV2Entries {
 - `sender.withdrawal.to_lock == recevier_lock_script`
 - `withdraw_smt_type == 0x8102`
 - `claim_smt_type == 0x8103`
-- `claim.info.version == 0x00(V0) or 0x01(V1)`
+- `claim.info.version == 0x00(V0) or 0x01(V1) or 0x02(V1)`
 - 对应的 `keys: values`，长度必须相等
 - claims 与 withdrawals 数据必须一一对应
 - action 必须与上述文档中定义的保持一致
 - `withdrawal_value.nft_info.state/characteristic` 满足 configure 配置，具体见 [mNFT 需求文档](https://www.notion.so/NFT-d6d5e54025824dce81cf7268b12625ea)
-- `claim.info.version == 0x00(V0) or 0x01(V1)`
 - `claim_info.nft_info.configure == withdrawal_value.nft_info.configure`
-- sender.withdrawal + sender.smt_root + withdrawal_proof 三者验证 smt 通过（需要区分V0和V1）
+- sender.withdrawal + sender.smt_root + withdrawal_proof 三者验证 smt 通过（需要区分V0和V1或V2）
 - claim 的 keys/vaules 不在 input.smt 中（smt root 与 proof 验证）
 - claim 的 keys/values(0xFF...FF) 在 output.smt 中（smt root 与 proof 验证）
 - withdrawal 的 keys/vaules 不在 input.smt 中（smt root 与 proof 验证）

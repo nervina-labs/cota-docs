@@ -15,7 +15,7 @@ To keep the update to the registry cell decentralized enough, its lock script mu
 data:
     version: byte
     registry_smt_root: bytes32
-	account_num: unit64
+	account_num: uint64
 type:
     code_hash: registry_type
     args: type_id
