@@ -14,7 +14,7 @@ The CoTA Cell simply consists of two necessary parts, the SMT root in the `cell 
  # CoTA cell data structure
 data:
     version: byte
-    smt_root: Option<byte32>
+    smt_root: byte32
 type:
     code_hash: cota_type
     args: lockscript_hash[0..20]  # must match self.lockscript

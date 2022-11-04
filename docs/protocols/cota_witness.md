@@ -206,7 +206,7 @@ table TransactionProof {
 # CoTA cell data structure
 data:
     version: byte
-    smt_root: Option<byte32>
+    smt_root: byte32
 type:
     code_hash: **cota_type**
     args: lockscript_hash[0..20]        # must match self.lockscript
@@ -721,7 +721,7 @@ table TransferUpdateCotaNFTV2Entries {
 - `sender.withdrawal.to_lock == recevier_lock_script`
 - `withdraw_smt_type == 0x8102`
 - `claim_smt_type == 0x8103`
-- `claim.info.version == 0x00(V0) or 0x01(V1) or 0x02(V1)`
+- `claim.info.version == 0x00(V0) or 0x01(V1) or 0x02(V2)`
 - 对应的 `keys: values`，长度必须相等
 - claims 与 withdrawals 数据必须一一对应
 - action 必须与上述文档中定义的保持一致
