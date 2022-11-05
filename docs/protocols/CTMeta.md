@@ -33,10 +33,10 @@ CTMeta uses `group_witnesses[0].output_type` as the data container. The data sho
 		...
 	]
 }
+```
 
 ## Pre-defined metadata type
 
-```
 | schema type | description | schema standard |
 |--|--|--|
 | cota.nft.define* | CoTA NFT definition | [CoTA NFT Metadata Schema](./CTMeta-schemas/nft-schema) |

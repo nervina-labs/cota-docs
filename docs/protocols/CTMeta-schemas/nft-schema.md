@@ -8,6 +8,11 @@ sidebar_position: 0
 title: Metadata schema for CoTA NFT definition
 type: object
 properties:
+  cota_id:
+    type: string
+    description: an UUID for all fungible and non-fungible tokens
+    optional: false
+
   version:
     type: string
     description: Version of this schema

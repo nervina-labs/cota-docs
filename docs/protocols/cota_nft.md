@@ -63,7 +63,6 @@ blake2b_hash of {
 	token_id:  Byte[20]
 	index_id:  uint32    
 	out_point: OutPoint[12..36]   # Outpoint field recorded in the proof
-|
 value:
 	0x00...00 for nonclaimed
 	0xFF...FF for claimed
